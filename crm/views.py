@@ -55,6 +55,20 @@ def logout_user(request):
     logout(request)
     return redirect('../login')
 
+def update_user(request):
+    if request.user.is_authenticated:
+        current_user = models.User.objects.get(id=request.user.id)
+        form = forms.CustomUserCreationForm(request.POST or None, instance=current_user)
+        return render(request, 'profile.html', {'form': form})
+    else:
+        return redirect('../login')
+
+def profile(request):
+    if request.user.is_authenticated:
+        current_user = models.User.objects.get(id=request.user.id)
+        form = forms.UserProfileForm(request.POST or None, instance=current_user)
+        return render(request, 'profile.html', {'form': form})
+
 
 def dashboard(request):
     return render(request, 'dashboard.html')

@@ -59,3 +59,6 @@ class UserForm(forms.ModelForm):
             password = self.cleaned_data.get('password')
             if not authenticate(email=email, password=password):
                 raise forms.ValidationError('Invalid Login')
+                
+
+    
