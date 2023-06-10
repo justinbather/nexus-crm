@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm, Authenti
 from django.contrib.auth.forms import User
 from django.utils.translation import gettext_lazy as _
 
-from .models import User
+from .models import User, Lead
 
 # 
 
@@ -59,6 +59,19 @@ class UserForm(forms.ModelForm):
             password = self.cleaned_data.get('password')
             if not authenticate(email=email, password=password):
                 raise forms.ValidationError('Invalid Login')
+
+class LeadForm(forms.ModelForm):
+    first_name = forms.TextInput()
+    last_name = forms.TextInput()
+    email = forms.TextInput()
+    contact_num = forms.TextInput()
+    notes = forms.Textarea()
+
+
+    class Meta:
+        model = Lead
+        fields = ('first_name', 'last_name', 'email', 'contact_num', 'notes',) 
+        #'touches', 'status', 'intent', 'last_contacted', 'date_created', 'notes')
                 
 
     

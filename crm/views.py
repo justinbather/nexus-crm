@@ -68,7 +68,29 @@ def profile(request):
         current_user = models.User.objects.get(id=request.user.id)
         form = forms.UserProfileForm(request.POST or None, instance=current_user)
         return render(request, 'profile.html', {'form': form})
+    else:
+        return redirect('../login')
 
 
 def dashboard(request):
-    return render(request, 'dashboard.html')
+    if request.user.is_authenticated:
+        current_user = models.User.objects.get(id=request.user.id)
+        lead_list = models.Lead.objects.filter(creator=request.user)
+        lead_form = forms.LeadForm()
+        
+
+        if request.POST:
+            form = forms.LeadForm(request.POST)
+            if form.is_valid():
+                lead = form.save(commit=False)
+                lead.creator = request.user
+               
+                #print(form.creator)
+                lead.save()
+                print("form saved")
+
+        context = {'lead_form':lead_form, 'first_name': request.user.first_name, 'lead_list':lead_list
+        }
+        return render(request, 'dashboard.html', context)
+    else:
+        return redirect('../login')

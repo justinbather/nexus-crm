@@ -4,6 +4,91 @@
 
 <h1>Dashboard</h1>
 
-<h2 onclick="location.href = '../logout'">Logout</h2>
+<h1>Welcome, {{first_name}}</h1>
+
+
+<table class="table table-dark table-hover">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Contact #</th>
+            <th scope="col">Touches</th>
+            <th scope="col">Status</th>
+            <th scope="col">Intent</th>
+            <th scope="col">Notes</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if lead_list %}
+            {% for lead in lead_list%}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{lead.first_name}} {{ lead.last_name}}</td>
+                <td>{{lead.email}}</td>
+                <td>{{lead.contact_num}}</td>
+                <td>{{lead.touches}}</td>
+                <td>{{lead.status}}</td>
+                <td>{{lead.intent}}</td>
+                <td>{{lead.notes}}</td>
+            </tr>
+            {% endfor %}
+        {% endif %}
+    </tbody>
+</table>
+
+
+
+    
+
+        
+
+    
+<!--
+<div data-bs-spy="scroll" data-bs-target="#navbar-example2" data-bs-root-margin="0px 0px -40%" data-bs-smooth-scroll="true" class="scrollspy-example bg-body-tertiary p-3 rounded-2" tabindex="0">
+    <h4 id="scrollspyHeading1">First heading</h4>
+    <p>...</p>
+    <h4 id="scrollspyHeading2">Second heading</h4>
+    <p>...</p>
+    <h4 id="scrollspyHeading3">Third heading</h4>
+    <p>...</p>
+    <h4 id="scrollspyHeading4">Fourth heading</h4>
+    <p>...</p>
+    <h4 id="scrollspyHeading5">Fifth heading</h4>
+    <p>...</p>
+  </div>
+-->
+<form method="POST" class="row g-3">
+    {% csrf_token %}
+    {% for field in lead_form.first_name %}
+    <div class="col-auto">
+      <label for="id_first_name" class="visually-hidden">First Name</label>
+      <input type="text" class="form-control" name="first_name" id="id_first_name" placeholder="First Name">
+    </div>
+    {% endfor %}
+    {% for field in lead_form.last_name %}
+    <div class="col-auto">
+      <label for="id_last_name" class="visually-hidden">Last Name</label>
+      <input type="text" class="form-control" name="last_name" id="id_last_name" placeholder="Last Name">
+    </div>
+    {% endfor %}
+    {% for field in lead_form.email %}
+    <div class="col-auto">
+      <label for="id_email" class="visually-hidden">Email</label>
+      <input type="text" class="form-control" name="email" id="id_email" placeholder="Email">
+    </div>
+    {% endfor %}
+    {% for field in lead_form.contact_num %}
+    <div class="col-auto">
+      <label for="id_contact_num" class="visually-hidden">Contact #</label>
+      <input type="text" class="form-control" name="contact_num" id="id_contact_num" placeholder="Contact Number">
+    </div>
+    {% endfor %}
+
+    <div class="col-auto">
+      <button method="POST" type="submit" class="btn btn-primary mb-3">New Lead</button>
+    </div>
+  </form>
 
 {% endblock %}
