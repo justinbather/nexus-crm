@@ -66,7 +66,7 @@ class Lead(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30, blank=True, null=True)
     email = models.CharField(max_length=60, blank=True, null=True)
-    contact_num = models.IntegerField(blank=True, null=True, verbose_name="Contact Number")
+    contact_num = models.CharField(blank=True, null=True, verbose_name="Contact Number", max_length=30)
     touches = models.IntegerField(blank=True, null=True)
     last_contacted = models.DateField(blank=True, null=True)
     date_created = models.DateField(default=date.today)
@@ -76,3 +76,6 @@ class Lead(models.Model):
 
     def __str__(self):
         return self.first_name
+
+    def getid(self):
+        return self.id

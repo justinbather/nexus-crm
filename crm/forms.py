@@ -66,11 +66,12 @@ class LeadForm(forms.ModelForm):
     email = forms.TextInput()
     contact_num = forms.TextInput()
     notes = forms.Textarea()
+    id = forms.ModelChoiceField(queryset=Lead.objects.all() ,widget=forms.HiddenInput(), required=False)
 
 
     class Meta:
         model = Lead
-        fields = ('first_name', 'last_name', 'email', 'contact_num', 'notes',) 
+        fields = ('first_name', 'last_name', 'email', 'contact_num', 'notes', ) 
         #'touches', 'status', 'intent', 'last_contacted', 'date_created', 'notes')
                 
 

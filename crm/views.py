@@ -76,21 +76,63 @@ def dashboard(request):
     if request.user.is_authenticated:
         current_user = models.User.objects.get(id=request.user.id)
         lead_list = models.Lead.objects.filter(creator=request.user)
+        
+        # Prefilled and editable forms for existing leads using lead_list
+        # method objects.getid created to return lead id easily
+
+        form_list = []
+        for lead in lead_list:
+            # for every lead in above lead list we need to initialize a form with its info
+
+            #Stores Lead ID
+            id = models.Lead.getid(lead)
+            #then we need to store the initialized form into a variable and append it to the form_list and display to template
+            testlead_form = forms.LeadForm(initial = {'id':id, 'first_name':lead.first_name, 
+            'last_name':lead.last_name, 'email':lead.email, 'contact_num':lead.contact_num})
+            form_list.append(testlead_form)
+            #in the template we need to loop through the form list with the lead id in a hidden input so we can catch the id in POST
+                # and update the lead which the id belongs to
+                    
+
+                            
+
+
+
+        
+
         lead_form = forms.LeadForm()
         
 
         if request.POST:
-            form = forms.LeadForm(request.POST)
-            if form.is_valid():
-                lead = form.save(commit=False)
-                lead.creator = request.user
-               
-                #print(form.creator)
-                lead.save()
-                print("form saved")
+            if "edit_lead" in request.POST:
+                print("edit lead button")
+                form = forms.LeadForm(request.POST)
+                if form.is_valid():
+                    lead_id = request.POST['id']
+                    print(lead_id)
+                    lead_obj = models.Lead.objects.get(id=lead_id)
+                    print(lead_obj.first_name)
+                    lead_obj.first_name = request.POST['first_name']
+                    print(lead_obj.first_name)
+                    lead_obj.last_name = request.POST['last_name']
+                    lead_obj.email = request.POST['email']
+                    lead_obj.contact_num = request.POST['contact_num']
+                    lead_obj.save()
+            if "new_lead" in request.POST:
+                print("new lead posted")
+                form = forms.LeadForm(request.POST)
+                
+                print(form.errors)
+                print(request.POST)
+                if form.is_valid():
+                    lead = form.save(commit=False)
+                    print(lead.id)
+                    lead.creator = request.user
+                    lead.save()
 
-        context = {'lead_form':lead_form, 'first_name': request.user.first_name, 'lead_list':lead_list
-        }
+
+        context = {'lead_form':lead_form, 'first_name': request.user.first_name, 
+        'lead_list':lead_list, 'form_list':form_list}
         return render(request, 'dashboard.html', context)
     else:
         return redirect('../login')

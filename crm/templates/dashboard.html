@@ -2,64 +2,58 @@
 
 {% block content %}
 
+<div class="container">
 <h1>Dashboard</h1>
 
 <h1>Welcome, {{first_name}}</h1>
-
-
-<table class="table table-dark table-hover">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Email</th>
-            <th scope="col">Contact #</th>
-            <th scope="col">Touches</th>
-            <th scope="col">Status</th>
-            <th scope="col">Intent</th>
-            <th scope="col">Notes</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% if lead_list %}
-            {% for lead in lead_list%}
-            <tr>
-                <td>{{forloop.counter}}</td>
-                <td>{{lead.first_name}} {{ lead.last_name}}</td>
-                <td>{{lead.email}}</td>
-                <td>{{lead.contact_num}}</td>
-                <td>{{lead.touches}}</td>
-                <td>{{lead.status}}</td>
-                <td>{{lead.intent}}</td>
-                <td>{{lead.notes}}</td>
-            </tr>
-            {% endfor %}
-        {% endif %}
-    </tbody>
-</table>
+</div>
 
 
 
-    
+
+
+
+<br/>
+<div class="overflow-scroll" style="max-height: 300px;">
+{% for form in form_list %}
+    <div class="container">
+        <form method="post" class="row g-3">
+            {%csrf_token%}
+            <div class="col-auto">
+                {{form.first_name}}
+            </div>
+            <div class="col-auto">
+                {{form.last_name}}
+            </div>
+            
+            <div class="col-auto">
+                {{form.email}}
+            </div>
+            <div class="col-auto">
+                {{form.contact_num}}
+            </div>
+            
+            <div class="col-auto">
+                {{form.id}}
+            </div>
+            
+            <div class="col-auto">
+                <button method="POST" type="submit" name="edit_lead" class="btn btn-primary mb-3">Edit</button>
+              </div>
+        </form>
+    </div>
+{% endfor %}
+</div>
+
+<br/>
+<br/>
 
         
 
     
-<!--
-<div data-bs-spy="scroll" data-bs-target="#navbar-example2" data-bs-root-margin="0px 0px -40%" data-bs-smooth-scroll="true" class="scrollspy-example bg-body-tertiary p-3 rounded-2" tabindex="0">
-    <h4 id="scrollspyHeading1">First heading</h4>
-    <p>...</p>
-    <h4 id="scrollspyHeading2">Second heading</h4>
-    <p>...</p>
-    <h4 id="scrollspyHeading3">Third heading</h4>
-    <p>...</p>
-    <h4 id="scrollspyHeading4">Fourth heading</h4>
-    <p>...</p>
-    <h4 id="scrollspyHeading5">Fifth heading</h4>
-    <p>...</p>
-  </div>
--->
+<div class="container-fluid">
 <form method="POST" class="row g-3">
+    {{form.errors}}
     {% csrf_token %}
     {% for field in lead_form.first_name %}
     <div class="col-auto">
@@ -85,10 +79,16 @@
       <input type="text" class="form-control" name="contact_num" id="id_contact_num" placeholder="Contact Number">
     </div>
     {% endfor %}
+    {% for field in lead_form.contact_num %}
+    <div class="col-auto">
+      <label for="id_status" class="visually-hidden">Status</label>
+      <input type="text" class="form-control" name="status" id="id_status" placeholder="Status">
+    </div>
+    {% endfor %}
 
     <div class="col-auto">
-      <button method="POST" type="submit" class="btn btn-primary mb-3">New Lead</button>
+      <button method="POST" type="submit" class="btn btn-primary mb-3" name="new_lead">New Lead</button>
     </div>
   </form>
-
+</div>
 {% endblock %}
