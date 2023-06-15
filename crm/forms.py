@@ -61,7 +61,8 @@ class UserForm(forms.ModelForm):
                 raise forms.ValidationError('Invalid Login')
 
 class LeadForm(forms.ModelForm):
-    first_name = forms.TextInput()
+    first_name = forms.CharField(widget= forms.TextInput
+                           (attrs={'class':'lead-form-field'}))
     last_name = forms.TextInput()
     email = forms.TextInput()
     contact_num = forms.TextInput()

@@ -104,33 +104,31 @@ def dashboard(request):
         
 
         if request.POST:
-            if "edit_lead" in request.POST:
-                print("edit lead button")
+            if "edit_lead" in request.POST: # Allows user to edit an exisiting lead
+                
                 form = forms.LeadForm(request.POST)
                 if form.is_valid():
                     lead_id = request.POST['id']
-                    print(lead_id)
                     lead_obj = models.Lead.objects.get(id=lead_id)
-                    print(lead_obj.first_name)
                     lead_obj.first_name = request.POST['first_name']
-                    print(lead_obj.first_name)
                     lead_obj.last_name = request.POST['last_name']
                     lead_obj.email = request.POST['email']
                     lead_obj.contact_num = request.POST['contact_num']
                     lead_obj.save()
-            if "new_lead" in request.POST:
-                print("new lead posted")
-                form = forms.LeadForm(request.POST)
+                    return redirect('dashboard')
+
+            if "new_lead" in request.POST: #Allows user to add a new lead
                 
-                print(form.errors)
-                print(request.POST)
+                form = forms.LeadForm(request.POST)
                 if form.is_valid():
                     lead = form.save(commit=False)
                     print(lead.id)
                     lead.creator = request.user
                     lead.save()
+                    return redirect('dashboard')
 
-            if "delete_lead" in request.POST:
+            if "delete_lead" in request.POST: #Allows user to delete an exisiting entry
+
                 lead_id = request.POST['id']
                 lead_obj = models.Lead.objects.get(id=lead_id)
                 lead_obj.delete()
