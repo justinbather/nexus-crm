@@ -14,6 +14,7 @@
 
 
 <br/>
+
 <div class="overflow-scroll" style="max-height: 300px;">
 {% for form in form_list %}
     <div class="container">
@@ -40,6 +41,10 @@
             <div class="col-auto">
                 <button method="POST" type="submit" name="edit_lead" class="btn btn-primary mb-3">Edit</button>
               </div>
+              <div class="col-auto">
+                <button method="POST" type="submit" name="delete_lead" class="btn btn-danger mb-3">Delete</button>
+              </div>
+
         </form>
     </div>
 {% endfor %}
@@ -87,7 +92,7 @@
     {% endfor %}
 
     <div class="col-auto">
-      <button method="POST" type="submit" class="btn btn-primary mb-3" name="new_lead">New Lead</button>
+      <button method="POST" type="submit" class="btn btn-success mb-3" name="new_lead">New Lead</button>
     </div>
   </form>
 </div>

@@ -130,6 +130,13 @@ def dashboard(request):
                     lead.creator = request.user
                     lead.save()
 
+            if "delete_lead" in request.POST:
+                lead_id = request.POST['id']
+                lead_obj = models.Lead.objects.get(id=lead_id)
+                lead_obj.delete()
+                return redirect('dashboard')
+
+
 
         context = {'lead_form':lead_form, 'first_name': request.user.first_name, 
         'lead_list':lead_list, 'form_list':form_list}
