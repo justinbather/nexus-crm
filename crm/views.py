@@ -92,8 +92,30 @@ def dashboard(request):
             form_list.append(testlead_form)
             #in the template we need to loop through the form list with the lead id in a hidden input so we can catch the id in POST
                 # and update the lead which the id belongs to
-                    
+        print(form_list)
 
+        """
+        user_board_list = []
+        
+        boards = models.Board.objects.filter(user=request.user).order_by('id')
+        for board in boards:
+            board_lead_list = []
+            board_leads = models.Lead.objects.filter(creator=request.user, board=board).order_by('id')
+            for lead in board_leads:
+                lead_id = models.Lead.getid(lead)
+                board_lead_form = forms.LeadForm(initial = {'id':lead_id, 'first_name':lead.first_name, 
+                    'last_name':lead.last_name, 'email':lead.email, 'contact_num':lead.contact_num})
+                board_lead_list.append(board_lead_form)
+            user_board_list.append(board_lead_list)
+
+        
+
+        #for board in user_board_list:
+            #print(board)
+            #for lead in board:
+                #print(lead)
+                    
+        """
                             
 
 
@@ -137,7 +159,7 @@ def dashboard(request):
 
 
         context = {'lead_form':lead_form, 'first_name': request.user.first_name, 
-        'lead_list':lead_list, 'form_list':form_list}
+        'lead_list':lead_list, 'form_list':form_list,}
         return render(request, 'dashboard.html', context)
     else:
         return redirect('../login')

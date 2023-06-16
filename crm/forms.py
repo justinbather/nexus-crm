@@ -61,11 +61,10 @@ class UserForm(forms.ModelForm):
                 raise forms.ValidationError('Invalid Login')
 
 class LeadForm(forms.ModelForm):
-    first_name = forms.CharField(widget= forms.TextInput
-                           (attrs={'class':'lead-form-field'}))
-    last_name = forms.TextInput()
-    email = forms.TextInput()
-    contact_num = forms.TextInput()
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'First Name'}))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Last Name'}))
+    email = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'E-mail'}))
+    contact_num = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Contact #'}))
     notes = forms.Textarea()
     id = forms.ModelChoiceField(queryset=Lead.objects.all() ,widget=forms.HiddenInput(), required=False)
 

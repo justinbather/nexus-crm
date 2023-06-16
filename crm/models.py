@@ -34,6 +34,14 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.email
 
+class Board(models.Model):
+    name = models.CharField(max_length=10, blank=False)
+    description = models.CharField(max_length=50, blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
 class Lead(models.Model):
 
     # Defines Choices
@@ -74,8 +82,14 @@ class Lead(models.Model):
     intent = models.CharField(choices=INTENT_RANGE, max_length=20, blank=True, null=True)
     notes = models.CharField(max_length=200, blank=True, null=True)
 
+    #Board feature
+    #board = models.ForeignKey(Board, on_delete=models.CASCADE)
+
+
     def __str__(self):
         return self.first_name
-
+    
     def getid(self):
         return self.id
+
+
